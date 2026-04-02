@@ -1,0 +1,7 @@
+[tasks.dryrun]
+description = "Dry run of copying the mod to your Mods directory, for testing in your game"
+run = "rsync -nrPt --delete-after --exclude-from=.gitignore --exclude-from=.copyignore ./"
+
+[tasks.copy]
+description = "Copy the mod to your Mods directory, for testing in your game"
+run = "rsync -rPt --delete-after --exclude-from=.gitignore --exclude-from=.copyignore ./"
