@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Outer-Wilds-New-Horizons/new-horizons/main/NewHorizons/Schemas/body_schema.json",
+  "name": "Dream World",
+  "removeChildren": [
+    "Sector_DreamWorld/Sector_DreamZone_1/Ghosts_DreamZone_1/GhostsDirector_PartyHavers/PartyMusicController/PartyMusic_Traveler",
+    "Sector_DreamWorld/Sector_DreamZone_1/Ghosts_DreamZone_1/GhostsDirector_PartyHavers/PartyMusicController/PartyMusic_Vocals",
+    "Sector_DreamWorld/Sector_DreamZone_1/Ghosts_DreamZone_1/GhostsDirector_PartyHavers/PartyMusicController/PartyMusic_Drone",
+    "Sector_DreamWorld/Sector_DreamZone_1/Ghosts_DreamZone_1/GhostsDirector_PartyHavers/PartyMusicController/PartyMusic_Bass"
+  ],
+  "Props": {
+    "audioSources": [
+      {
+        "rename": "PartyMusic_SorryForPartyOwlkin",
+        "parentPath": "Sector_DreamWorld/Sector_DreamZone_1/Ghosts_DreamZone_1/GhostsDirector_PartyHavers/PartyMusicController",
+        "sectorPath": "auto",
+        "audio": "copyrighted/Sorry For Party Rocking.ogg",
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isRelativeToParent": true,
+        "volume": 0.4,
+        "minDistance": 5,
+        "maxDistance": 100,
+        "track": "muffleWhileRafting"
+      }
+    ]
+  }
+}
