@@ -1,6 +1,18 @@
+# Not needed to run the mod
+
 .git
 .github
 .gitattributes
 .gitignore
 .copyignore
 mise.toml
+
+# From gitignore
+
+.vs/
+.vscode/
+configBackups/
+
+# Written after installation and running
+
+config.json
