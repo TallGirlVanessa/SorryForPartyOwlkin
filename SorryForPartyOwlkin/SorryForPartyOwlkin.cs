@@ -2,6 +2,8 @@
 using OWML.Common;
 using OWML.ModHelper;
 using System.Reflection;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace SorryForPartyOwlkin
 {
@@ -32,12 +34,35 @@ namespace SorryForPartyOwlkin
             // Example of accessing game code.
             OnCompleteSceneLoad(OWScene.TitleScreen, OWScene.TitleScreen); // We start on title screen
             LoadManager.OnCompleteSceneLoad += OnCompleteSceneLoad;
+
+            // Vanessa's code follows
+            UnityEvent<string> systemLoaded = NewHorizons.GetStarSystemLoadedEvent();
+            systemLoaded.AddListener(GetNewHorizonsSystemAdditions);
         }
 
         public void OnCompleteSceneLoad(OWScene previousScene, OWScene newScene)
         {
             if (newScene != OWScene.SolarSystem) return;
             ModHelper.Console.WriteLine("Loaded into solar system!", MessageType.Success);
+        }
+
+        public void GetNewHorizonsSystemAdditions(string systemName)
+        {
+            if (systemName != "SolarSystem")
+            {
+                return;
+            }
+            ModHelper.Console.WriteLine($"New Horizons customizations complete for system `{systemName}`", MessageType.Success);
+            GetNewAudioSource();
+        }
+
+        public void GetNewAudioSource()
+        {
+            ModHelper.Console.WriteLine("Trying to get the GameObject", MessageType.Info);
+            GameObject foundObject = GameObject.Find(
+                "DreamWorld_Body/Sector_DreamWorld/Sector_DreamZone_1/Ghosts_DreamZone_1/GhostsDirector_PartyHavers/PartyMusicController/PartyMusic_SorryForPartyOwlkin"
+            );
+            ModHelper.Console.WriteLine($"Got the GameObject! Its name is `{foundObject.name}`", MessageType.Success);
         }
     }
 
