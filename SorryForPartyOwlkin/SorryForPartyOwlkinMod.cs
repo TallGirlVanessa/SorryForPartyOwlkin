@@ -7,9 +7,9 @@ using UnityEngine.Events;
 
 namespace SorryForPartyOwlkin
 {
-    public class SorryForPartyOwlkin : ModBehaviour
+    public class SorryForPartyOwlkinMod : ModBehaviour
     {
-        public static SorryForPartyOwlkin Instance;
+        public static SorryForPartyOwlkinMod Instance;
         public INewHorizons NewHorizons;
 
         public void Awake()
@@ -23,7 +23,7 @@ namespace SorryForPartyOwlkin
         public void Start()
         {
             // Starting here, you'll have access to OWML's mod helper.
-            ModHelper.Console.WriteLine($"My mod {nameof(SorryForPartyOwlkin)} is loaded!", MessageType.Success);
+            ModHelper.Console.WriteLine($"My mod {nameof(SorryForPartyOwlkinMod)} is loaded!", MessageType.Success);
 
             // Get the New Horizons API and load configs
             NewHorizons = ModHelper.Interaction.TryGetModApi<INewHorizons>("xen.NewHorizons");
