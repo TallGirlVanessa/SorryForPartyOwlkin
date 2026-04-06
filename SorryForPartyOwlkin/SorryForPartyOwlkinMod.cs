@@ -53,16 +53,18 @@ namespace SorryForPartyOwlkin
                 return;
             }
             ModHelper.Console.WriteLine($"New Horizons customizations complete for system `{systemName}`", MessageType.Success);
-            GetNewAudioSource();
+            GameObject newSource = GetNewAudioSource();
+            PartyMusicControllerPatch.Initialize(newSource);
         }
 
-        public void GetNewAudioSource()
+        public GameObject GetNewAudioSource()
         {
             ModHelper.Console.WriteLine("Trying to get the GameObject", MessageType.Info);
             GameObject foundObject = GameObject.Find(
                 "DreamWorld_Body/Sector_DreamWorld/Sector_DreamZone_1/Ghosts_DreamZone_1/GhostsDirector_PartyHavers/PartyMusicController/PartyMusic_SorryForPartyOwlkin"
             );
             ModHelper.Console.WriteLine($"Got the GameObject! Its name is `{foundObject.name}`", MessageType.Success);
+            return foundObject;
         }
     }
 

@@ -20,7 +20,7 @@
           "z": 0
         },
         "isRelativeToParent": true,
-        "volume": 0.4,
+        "volume": 1,
         "minDistance": 5,
         "maxDistance": 100,
         "track": "muffleWhileRafting"
