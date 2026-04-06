@@ -4,9 +4,8 @@ using System.Reflection;
 using OWML.Common;
 using SorryForPartyOwlkin;
 using UnityEngine;
-using OWML.ModHelper;
 using System.Linq;
-using System.Collections.Generic;
+using OWML.Utils;
 
 [HarmonyPatch]
 public class PartyMusicControllerPatch
@@ -25,6 +24,7 @@ public class PartyMusicControllerPatch
             $"PartyMusicController method: `{__originalMethod.Name}` just called, with args `{allArgs}`.",
             MessageType.Success
         );
+        CheckPartyMusicControllerFields(__instance);
     }
 
     public static void Initialize(GameObject partyMusic_SorryForPartyOwlkin)
@@ -36,51 +36,33 @@ public class PartyMusicControllerPatch
         );
     }
 
+	[HarmonyPrefix]
+    [HarmonyPatch(typeof(PartyMusicController), nameof(PartyMusicController.Start))]
+    public static void PartyMusicController_Start(PartyMusicController __instance)
+    {
+        var result = EnumUtils.TryParse("SFPR", out AudioType parsedType);
+        SorryForPartyOwlkinMod.Instance.ModHelper.Console.WriteLine($"Audio type parse test. Result: `{result}` Output: `{parsedType}`", MessageType.Success);
+        __instance._instrumentSources = [OWAudioSource_PartyOwlkin];
+        __instance._stopDelays = [0f];
+        CheckPartyMusicControllerFields(__instance);
+    }
+
     private static string StringFromArgs(object[] args)
     {
         var argStrings = args.Select(x => x.ToString());
         var allArgs = String.Join(", ", argStrings);
         return allArgs;
     }
-
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(PartyMusicController), nameof(PartyMusicController.Start))]
-    public static void PartyMusicController_Start()
+    private static void CheckPartyMusicControllerFields(PartyMusicController partyMusicController)
     {
-        // I tried adding our new OWAudioSource to __instance._instrumentSources
-        // But everything in there needs to be in the AudioLibrary, and our custom
-        // AudioClip is not. So we just patch all the relevant methods and duplicate what
-        // PartyMusicController does while it loops through the base game sources.
-        OWAudioSource_PartyOwlkin.SetLocalVolume(0f);
-    }
-
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(PartyMusicController), nameof(PartyMusicController.FadeIn))]
-    public static void PartyMusicController_FadeIn(float duration)
-    {
-        OWAudioSource_PartyOwlkin.Stop();
-        // The library for the 4 base game sources uses 0.4 for the volume
-        // See AudioLibrary.audioEntries indices 664, 665, 666, 667
-        OWAudioSource_PartyOwlkin.FadeIn(duration, false, false, 0.4f);
-    }
-
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(PartyMusicController), nameof(PartyMusicController.FadeOut))]
-    public static void PartyMusicController_FadeOut(float duration)
-    {
-        OWAudioSource_PartyOwlkin.FadeOut(duration, OWAudioSource.FadeOutCompleteAction.STOP, 0f);
-    }
-
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(PartyMusicController), nameof(PartyMusicController.Update))]
-    public static void PartyMusicController_Update(PartyMusicController __instance)
-    {
-        if (!OWAudioSource_PartyOwlkin.isPlaying)
-        {
-            __instance.enabled = false;
-        } else if (!OWAudioSource_PartyOwlkin.IsFadingOut() && Time.time >= __instance._stopTime)
-        {
-            OWAudioSource_PartyOwlkin.FadeOut(0.5f, OWAudioSource.FadeOutCompleteAction.STOP, 0f);
-        }
+        var sourceNames = partyMusicController._instrumentSources.Select(source => source.name);
+        var sourceNameString = String.Join(", ", sourceNames);
+        var delaysString = String.Join(", ", partyMusicController._stopDelays);
+        SorryForPartyOwlkinMod.Instance.ModHelper.Console.WriteLine(
+            "PartyMusicController fields check:\n" +
+            $"Sources: `{sourceNameString}`\n" +
+            $"Stop delays: `{delaysString}`",
+            MessageType.Success
+        );
     }
 }

@@ -13,7 +13,7 @@
         "rename": "PartyMusic_SorryForPartyOwlkin",
         "parentPath": "Sector_DreamWorld/Sector_DreamZone_1/Ghosts_DreamZone_1/GhostsDirector_PartyHavers/PartyMusicController",
         "sectorPath": "auto",
-        "audio": "copyrighted/Sorry For Party Rocking.ogg",
+        "audio": "SFPR",
         "position": {
           "x": 0,
           "y": 0,

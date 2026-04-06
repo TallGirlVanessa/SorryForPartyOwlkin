@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="OWML" Version="2.15.1" />
     <PackageReference Include="OuterWildsGameLibs" Version="1.1.15.1018" />
+    <Reference Include="../../../../AppData/Roaming/OuterWildsModManager/OWML/Mods/xen.NewHorizons/NewHorizons.dll"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="default-config.json">
