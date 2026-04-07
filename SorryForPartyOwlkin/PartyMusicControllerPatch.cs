@@ -22,7 +22,7 @@ public class PartyMusicControllerPatch
         var allArgs = StringFromArgs(__args);
         SorryForPartyOwlkinMod.Instance.ModHelper.Console.WriteLine(
             $"PartyMusicController method: `{__originalMethod.Name}` just called, with args `{allArgs}`.",
-            MessageType.Success
+            MessageType.Debug
         );
         CheckPartyMusicControllerFields(__instance);
     }
@@ -32,7 +32,7 @@ public class PartyMusicControllerPatch
         OWAudioSource_PartyOwlkin = partyMusic_SorryForPartyOwlkin.GetComponent<OWAudioSource>();
         SorryForPartyOwlkinMod.Instance.ModHelper.Console.WriteLine(
             $"Got OWAudioSource: `{OWAudioSource_PartyOwlkin}`",
-            MessageType.Success
+            MessageType.Debug
         );
     }
 
@@ -40,11 +40,12 @@ public class PartyMusicControllerPatch
     [HarmonyPatch(typeof(PartyMusicController), nameof(PartyMusicController.Start))]
     public static void PartyMusicController_Start(PartyMusicController __instance)
     {
-        var result = EnumUtils.TryParse("SFPR", out AudioType parsedType);
-        SorryForPartyOwlkinMod.Instance.ModHelper.Console.WriteLine($"Audio type parse test. Result: `{result}` Output: `{parsedType}`", MessageType.Success);
         __instance._instrumentSources = [OWAudioSource_PartyOwlkin];
         __instance._stopDelays = [0f];
+        SorryForPartyOwlkinMod.Instance.ModHelper.Console.WriteLine(
+            "PartyMusicController sources replaced with custom OWAudioSource");
         CheckPartyMusicControllerFields(__instance);
+
     }
 
     private static string StringFromArgs(object[] args)
@@ -62,7 +63,7 @@ public class PartyMusicControllerPatch
             "PartyMusicController fields check:\n" +
             $"Sources: `{sourceNameString}`\n" +
             $"Stop delays: `{delaysString}`",
-            MessageType.Success
+            MessageType.Debug
         );
     }
 }
